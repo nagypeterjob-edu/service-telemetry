@@ -1,5 +1,6 @@
 # service-telemetry
-An example web-service which exposes prometheus compatible metrics
+An example web-service which exposes prometheus compatible metrics.  
+The service is used to demonstrate Spinnaker Canary deployments with Istio.
 
 ## Resources
 
