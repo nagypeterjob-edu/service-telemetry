@@ -8,9 +8,18 @@ services:
 
 jobs:
   include:
-    - stage: build docker image
+    - stage: build master
       script:
       - docker build --build-arg binary=linux -t telemetry .
+    - stage: push master
+      if: branch = master 
+      script:
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - docker tag telemetry:latest docker.io/nagypeter/telemetry:latest
-      - docker push docker.io/nagypeter/telemetry:latest 
+      - docker tag telemetry:latest docker.io/nagypeter/telemetry:${TRAVIS_COMMIT}
+      - docker push docker.io/nagypeter/telemetry:${TRAVIS_COMMIT}
+    - stage: push tag
+      if: tag =~ ^v(\d+.?)+.*$
+      script:
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - docker tag telemetry:latest docker.io/nagypeter/telemetry:${TRAVIS_TAG}
+      - docker push docker.io/nagypeter/telemetry:${TRAVIS_TAG}
