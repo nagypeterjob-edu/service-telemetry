@@ -7,7 +7,7 @@ services:
   - docker
 
 before_install:
-  - docker build -t telemetry .
+  - docker build --build-arg binary=linux -t telemetry .
 
 deploy:
   provider: script
