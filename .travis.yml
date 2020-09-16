@@ -15,12 +15,12 @@ jobs:
       script:
       - docker build --build-arg binary=linux -t telemetry .
       - $(aws ecr get-login --no-include-email --region ${AWS_REGION})
-      - docker tag telemetry:latest 517870225215.dkr.ecr.us-east-1.amazonaws.com/service-telemetry:${TRAVIS_COMMIT}
+      - docker tag telemetry:latest ${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com/service-telemetry:${TRAVIS_COMMIT}
       - docker push ${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com/service-telemetry:${TRAVIS_COMMIT}
     - stage: build & push tag
       if: tag =~ ^v(\d+.?)+.*$
       script:
       - docker build --build-arg binary=linux -t telemetry .
       - $(aws ecr get-login --no-include-email --region ${AWS_REGION})
-      - docker tag telemetry:latest 517870225215.dkr.ecr.us-east-1.amazonaws.com/service-telemetry:${TRAVIS_TAG}
+      - docker tag telemetry:latest ${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com/service-telemetry:${TRAVIS_TAG}
       - docker push ${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com/service-telemetry:${TRAVIS_TAG}
