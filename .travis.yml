@@ -12,13 +12,13 @@ jobs:
       if: branch = master 
       script:
       - docker build --build-arg binary=linux -t telemetry .
-      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - docker tag telemetry:latest docker.io/nagypeter/telemetry:${TRAVIS_COMMIT}
-      - docker push docker.io/nagypeter/telemetry:${TRAVIS_COMMIT}
+      - $(aws ecr get-login --no-include-email ${AWS_REGION})
+      - docker tag telemetry:latest 517870225215.dkr.ecr.us-east-1.amazonaws.com/service-telemetry:${TRAVIS_COMMIT}
+      - docker push ${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com/service-telemetry:${TRAVIS_COMMIT}
     - stage: build & push tag
       if: tag =~ ^v(\d+.?)+.*$
       script:
       - docker build --build-arg binary=linux -t telemetry .
-      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - docker tag telemetry:latest docker.io/nagypeter/telemetry:${TRAVIS_TAG}
-      - docker push docker.io/nagypeter/telemetry:${TRAVIS_TAG}
+      - $(aws ecr get-login --no-include-email ${AWS_REGION})
+      - docker tag telemetry:latest 517870225215.dkr.ecr.us-east-1.amazonaws.com/service-telemetry:${TRAVIS_TAG}
+      - docker push ${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com/service-telemetry:${TRAVIS_TAG}
