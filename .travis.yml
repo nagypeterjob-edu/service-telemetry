@@ -5,6 +5,8 @@ go:
 
 services:
   - docker
+install:
+  - pip install --user awscli
 
 jobs:
   include:
