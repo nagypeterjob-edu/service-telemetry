@@ -8,6 +8,7 @@ services:
 install:
   - pip install --user awscli
 
+# duplicate code until Travis Workspaces is out of beta (will enable to share built docker image between stages)
 jobs:
   include:
     - stage: build & push master
